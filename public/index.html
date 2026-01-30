@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GREEN API Emulator</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        height: 100%;
+        margin: 0;
+        background: #f3f4f6;
+        color: #1f2937;
+      }
+
+      .page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      header {
+        padding: 16px 16px 0;
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #111827;
+      }
+
+      main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 0 16px 16px;
+        min-height: 0;
+      }
+
+      .card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 14px;
+      }
+
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+      }
+
+      .hint {
+        color: #6b7280;
+        font-size: 12px;
+        margin-top: 8px;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: 160px 1fr;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      label {
+        color: #374151;
+        font-size: 13px;
+      }
+
+      input, textarea {
+        width: 100%;
+        background: #f9fafb;
+        border: 1px solid #d1d5db;
+        color: #111827;
+        border-radius: 10px;
+        padding: 10px 12px;
+        outline: none;
+      }
+
+      input:focus, textarea:focus {
+        border-color: #9ca3af;
+        background: #ffffff;
+      }
+
+      textarea {
+        min-height: 90px;
+        resize: vertical;
+      }
+
+      .btns {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      button {
+        background: #e5e7eb;
+        color: #111827;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        padding: 10px 12px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      button:hover {
+        background: #d1d5db;
+      }
+
+      button.secondary {
+        background: #f3f4f6;
+      }
+
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .formsGrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .responseCard {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
+      .responseHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      pre {
+        margin: 0;
+        flex: 1;
+        overflow: auto;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 12px;
+        color: #111827;
+      }
+
+      @media (max-width: 900px) {
+        .formsGrid { grid-template-columns: 1fr; }
+      }
+
+      @media (max-width: 520px) {
+        header { padding: 12px 12px 0; }
+        main { padding: 0 12px 12px; }
+        .row { grid-template-columns: 1fr; gap: 6px; }
+        label { font-size: 12px; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page">
+      <header>
+        <h1>GREEN API Emulator</h1>
+      </header>
+
+      <main>
+        <section class="card" aria-label="Credentials">
+          <div class="row">
+            <label for="baseUrl">Backend baseUrl</label>
+            <input id="baseUrl" class="mono" value="http://localhost:8080" />
+          </div>
+
+          <div class="formsGrid">
+            <div class="row" style="margin: 0;">
+              <label for="idInstance">idInstance</label>
+              <input id="idInstance" class="mono" placeholder="112233" />
+            </div>
+
+            <div class="row" style="margin: 0;">
+              <label for="apiTokenInstance">apiTokenInstance</label>
+              <input id="apiTokenInstance" class="mono" placeholder="token" />
+            </div>
+          </div>
+
+          <div class="btns" style="margin-top: 12px;">
+            <button id="btnSettings">getSettings</button>
+            <button id="btnState">getStateInstance</button>
+            <button id="btnClear" class="secondary">Clear output</button>
+          </div>
+
+          <div class="hint">
+            Все запросы: <span class="mono">POST</span> с <span class="mono">JSON</span> body.
+          </div>
+        </section>
+
+        <section class="formsGrid" aria-label="Actions">
+          <div class="card">
+            <div class="responseHeader">
+              <h2 style="margin: 0; font-size: 16px;">sendMessage</h2>
+              <span class="hint mono" style="margin: 0;">POST /green/message</span>
+            </div>
+
+            <div class="row">
+              <label for="chatIdMsg">chatId</label>
+              <input id="chatIdMsg" class="mono" placeholder="12424555" />
+            </div>
+
+            <div class="row">
+              <label for="message">message</label>
+              <textarea id="message" placeholder="Hello"></textarea>
+            </div>
+
+            <div class="btns">
+              <button id="btnSendMessage">sendMessage</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="responseHeader">
+              <h2 style="margin: 0; font-size: 16px;">sendFileByUrl</h2>
+              <span class="hint mono" style="margin: 0;">POST /green/file</span>
+            </div>
+
+            <div class="row">
+              <label for="chatIdFile">chatId</label>
+              <input id="chatIdFile" class="mono" placeholder="12424555" />
+            </div>
+
+            <div class="row">
+              <label for="urlFile">urlFile</label>
+              <input id="urlFile" class="mono" placeholder="https://some.com/file.png" />
+            </div>
+
+            <div class="row">
+              <label for="fileName">fileName</label>
+              <input id="fileName" class="mono" placeholder="file.png" />
+            </div>
+
+            <div class="row">
+              <label for="caption">caption</label>
+              <input id="caption" placeholder="optional caption" />
+            </div>
+
+            <div class="btns">
+              <button id="btnSendFile">sendFileByUrl</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card responseCard" aria-label="Response">
+          <div class="responseHeader">
+            <h2 style="margin: 0; font-size: 16px;">Response</h2>
+            <span class="hint" style="margin: 0;">(scroll внутри блока)</span>
+          </div>
+          <pre id="out" class="mono">{}</pre>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+
+      const out = $("out");
+      const setOut = (obj) => (out.textContent = JSON.stringify(obj, null, 2));
+
+      const base = () => $("baseUrl").value.replace(/\/+$/, "");
+
+      const getCreds = () => {
+        const idInstance = $("idInstance").value.trim();
+        const apiTokenInstance = $("apiTokenInstance").value.trim();
+        return { idInstance, apiTokenInstance };
+      };
+
+      const postJson = async (path, body) => {
+        const res = await fetch(base() + path, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+
+        const text = await res.text();
+        let data;
+        try { data = text ? JSON.parse(text) : {}; }
+        catch { data = { raw: text }; }
+
+        if (!res.ok) throw { status: res.status, data };
+        return data;
+      };
+
+      const withBusy = (btn, fn) => async () => {
+        const old = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = "…";
+        try { await fn(); }
+        catch (e) { setOut({ error: true, ...e }); }
+        finally {
+          btn.disabled = false;
+          btn.textContent = old;
+        }
+      };
+
+      $("btnClear").onclick = () => setOut({});
+
+      $("btnSettings").onclick = withBusy($("btnSettings"), async () => {
+        const data = await postJson("/green/settings", getCreds());
+        setOut(data);
+      });
+
+      $("btnState").onclick = withBusy($("btnState"), async () => {
+        const data = await postJson("/green/state", getCreds());
+        setOut(data);
+      });
+
+      $("btnSendMessage").onclick = withBusy($("btnSendMessage"), async () => {
+        const payload = {
+          ...getCreds(),
+          chatId: $("chatIdMsg").value.trim(),
+          message: $("message").value,
+        };
+        const data = await postJson("/green/message", payload);
+        setOut(data);
+      });
+
+      $("btnSendFile").onclick = withBusy($("btnSendFile"), async () => {
+        const payload = {
+          ...getCreds(),
+          chatId: $("chatIdFile").value.trim(),
+          urlFile: $("urlFile").value.trim(),
+          fileName: $("fileName").value.trim(),
+          caption: $("caption").value,
+        };
+        const data = await postJson("/green/file", payload);
+        setOut(data);
+      });
+    </script>
+  </body>
+</html>
