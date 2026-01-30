@@ -146,15 +146,13 @@
         margin-bottom: 10px;
       }
 
-      pre {
-        margin: 0;
+      #out {
         flex: 1;
+        min-height: 0;
+        resize: none;
         overflow: auto;
-        background: #f9fafb;
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 12px;
-        color: #111827;
+        white-space: pre;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       }
 
       @media (max-width: 900px) {
@@ -260,7 +258,7 @@
             <h2 style="margin: 0; font-size: 16px;">Response</h2>
             <span class="hint" style="margin: 0;">(scroll внутри блока)</span>
           </div>
-          <pre id="out" class="mono">{}</pre>
+          <textarea id="out" class="mono" readonly>{}</textarea>
         </section>
       </main>
     </div>
@@ -269,7 +267,7 @@
       const $ = (id) => document.getElementById(id);
 
       const out = $("out");
-      const setOut = (obj) => (out.textContent = JSON.stringify(obj, null, 2));
+      const setOut = (obj) => (out.value = JSON.stringify(obj, null, 2));
 
       const base = () => window.location.origin;
 
