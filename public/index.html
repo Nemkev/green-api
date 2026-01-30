@@ -178,11 +178,6 @@
 
       <main>
         <section class="card" aria-label="Credentials">
-          <div class="row">
-            <label for="baseUrl">Backend baseUrl</label>
-            <input id="baseUrl" class="mono" value="http://localhost:8080" />
-          </div>
-
           <div class="formsGrid">
             <div class="row" style="margin: 0;">
               <label for="idInstance">idInstance</label>
@@ -276,7 +271,7 @@
       const out = $("out");
       const setOut = (obj) => (out.textContent = JSON.stringify(obj, null, 2));
 
-      const base = () => $("baseUrl").value.replace(/\/+$/, "");
+      const base = () => window.location.origin;
 
       const getCreds = () => {
         const idInstance = $("idInstance").value.trim();

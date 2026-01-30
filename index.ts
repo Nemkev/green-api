@@ -7,7 +7,11 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 app.set("trust proxy", 1);
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  }),
+);
 app.use(express.json({ limit: "32kb" }));
 app.use(limiter);
 
