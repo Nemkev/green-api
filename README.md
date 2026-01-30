@@ -1,15 +1,35 @@
-# test
+# GREEN API Emulator
 
-To install dependencies:
+## Пример работы
 
-```bash
-bun install
-```
+### Страница с незаполненными данными
 
-To run:
+![Страница с незаполненными данными](./screenshots/screen7.png)
 
-```bash
-bun run index.ts
-```
+---
 
-This project was created using `bun init` in bun v1.2.17. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+## Результаты работы функции `getSettings`
+
+![getSettings](./screenshots/screen6.png)
+![getSettings](./screenshots/screen5.png)
+
+---
+
+## Результаты работы функции `getStateInstance`
+
+![getStateInstance](./screenshots/screen4.png)
+![getStateInstance](./screenshots/screen3.png)
+
+---
+
+## Результаты работы функции `sendMessage`
+
+![sendMessage](./screenshots/screen2.png)
+![sendMessage](./screenshots/screen1.png)
+
+---
+
+## Результаты работы функции `sendFileByUrl`
+
+![sendFileByUrl](./screenshots/screen8.png)
+![sendFileByUrl](./screenshots/screen9.png)
